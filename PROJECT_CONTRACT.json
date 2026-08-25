@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "metrics": {
+    "production_loc": 2349,
+    "production_files": 18,
+    "production_packages": 8,
+    "test_files": 10,
+    "production_functions": 208,
+    "decision_points": 347
+  },
+  "persistence": {
+    "module": "go.etcd.io/bbolt",
+    "entities": [
+      "Record",
+      "AuditEvent",
+      "Workflow",
+      "Attachment"
+    ],
+    "reopen_test": "TestPersistenceSurvivesReopen"
+  },
+  "workflows": [
+    {
+      "steps": [
+        "create registration and encrypted attachment",
+        "review metadata and permission",
+        "confirm the reviewed record",
+        "archive the confirmed record"
+      ],
+      "test": "TestWorkflowCreateReviewArchive"
+    },
+    {
+      "steps": [
+        "search records by title or checksum",
+        "select one record and inspect its permission",
+        "update permission and revision",
+        "publish the updated record"
+      ],
+      "test": "TestWorkflowSearchUpdatePublish"
+    },
+    {
+      "steps": [
+        "parse deterministic import rows",
+        "validate title, checksum, and permission",
+        "persist valid records and audit events",
+        "report imported and rejected counts"
+      ],
+      "test": "TestWorkflowImportReport"
+    }
+  ]
+}
